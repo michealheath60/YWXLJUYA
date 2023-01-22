@@ -34,7 +34,7 @@ defaults write "Apple Global Domain" MultipleSessionsEnabled -bool true
 #H
 defaults write com.apple.loginwindow DisableScreenLock -bool true
 
-defaults write com.apple.loginwindow AllowList -string '*'
+defaults write com.apple.loginwindow autoLoginUser -bool true
 
 #I
 brew install --cask ngrok
