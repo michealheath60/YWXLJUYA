@@ -2,14 +2,14 @@
 sudo mdutil -i off -a
 
 #B
-sudo dscl . -create /Users/KrypticBit
-sudo dscl . -create /Users/KrypticBit UserShell /bin/bash
-sudo dscl . -create /Users/KrypticBit RealName "KrypticBit"
-sudo dscl . -create /Users/KrypticBit UniqueID 1001
-sudo dscl . -create /Users/KrypticBit PrimaryGroupID 80
-sudo dscl . -create /Users/KrypticBit NFSHomeDirectory /Users/vncuser
-sudo dscl . -passwd /Users/KrypticBit $1
-sudo dscl . -passwd /Users/KrypticBit $1
+sudo dscl . -create /Users/John
+sudo dscl . -create /Users/John UserShell /bin/bash
+sudo dscl . -create /Users/John RealName "John"
+sudo dscl . -create /Users/John UniqueID 1001
+sudo dscl . -create /Users/John PrimaryGroupID 80
+sudo dscl . -create /Users/John NFSHomeDirectory /Users/vncuser
+sudo dscl . -passwd /Users/John $1
+sudo dscl . -passwd /Users/John $1
 sudo createhomedir -c -u akhil > /dev/null
 
 #C
