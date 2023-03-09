@@ -48,6 +48,7 @@ brew install --cask ngrok
 brew install --cask teamviewer
 brew install --cask firefox
 brew install --cask folx
+brew install --cask displays
 
 #L
 #brew  install --cask intellij-idea-ce
