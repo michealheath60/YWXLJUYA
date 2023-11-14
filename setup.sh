@@ -1,31 +1,66 @@
-#disable spotlight indexing
+#A
 sudo mdutil -i off -a
 
-#Create new account
-sudo dscl . -create /Users/alone
-sudo dscl . -create /Users/alone UserShell /bin/bash
-sudo dscl . -create /Users/alone RealName "Alone"
-sudo dscl . -create /Users/alone UniqueID 1001
-sudo dscl . -create /Users/alone PrimaryGroupID 80
-sudo dscl . -create /Users/alone NFSHomeDirectory /Users/vncuser
-sudo dscl . -passwd /Users/alone $1
-sudo dscl . -passwd /Users/alone $1
-sudo createhomedir -c -u alone > /dev/null
+#B
+sudo dscl . -create /Users/John
+sudo dscl . -create /Users/John UserShell /bin/bash
+sudo dscl . -create /Users/John RealName "John"
+sudo dscl . -create /Users/John UniqueID 1001
+sudo dscl . -create /Users/John PrimaryGroupID 80
+sudo dscl . -create /Users/John NFSHomeDirectory /Users/vncuser
+sudo dscl . -passwd /Users/John $1
+sudo dscl . -passwd /Users/John $1
+sudo createhomedir -c -u john > /dev/null
 
-#Enable VNC
+#C
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -allowAccessFor -allUsers -privs -all
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -clientopts -setvnclegacy -vnclegacy yes 
 
-#VNC password - http://hints.macworld.com/article.php?story=20071103011608872
+#D
 echo $2 | perl -we 'BEGIN { @k = unpack "C*", pack "H*", "1734516E8BA8C5E2FF1C39567390ADCA"}; $_ = <>; chomp; s/^(.{8}).*/$1/; @p = unpack "C*", $_; foreach (@k) { printf "%02X", $_ ^ (shift @p || 0) }; print "\n"' | sudo tee /Library/Preferences/com.apple.VNCSettings.txt
 
-#Start VNC/reset changes
+#E
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
-#install ngrok
-brew install --cask ngrok
+#F
+sudo nvram boot-args="serverperfmode=1 $(nvram boot-args 2>/dev/null | cut -f 2-)"
 
-#configure ngrok and start it
+#G
+sudo /usr/bin/defaults write .GlobalPreferences MultipleSessionsEnabled -bool TRUE
+
+defaults write "Apple Global Domain" MultipleSessionsEnabled -bool true
+
+#H
+defaults write com.apple.loginwindow DisableScreenLock -bool true
+
+defaults write com.apple.loginwindow AllowList -string '*'
+
+defaults write com.apple.loginwindow autoLoginUser -bool true
+
+sudo defaults write /Library/Preferences/com.apple.loginwindow DesktopPicture ""
+
+#I
+brew install --cask ngrok
+#J
+#brew install --cask google-chrome
+#K
+brew install --cask teamviewer
+brew install --cask firefox
+brew install --cask folx
+brew install --cask displays
+
+#L
+#brew  install --cask intellij-idea-ce
+#brew install --cask android-studio
+
+#M
+defaults write com.apple.Accessibility DifferentiateWithoutColor -int 1
+defaults write com.apple.Accessibility ReduceMotionEnabled -int 1
+defaults write com.apple.universalaccess reduceMotion -int 1
+defaults write com.apple.universalaccess reduceTransparency -int 1
+defaults write com.apple.Accessibility ReduceMotionEnabled -int 1
+
+#N
 ngrok authtoken $3
 ngrok tcp 5900 --region=in &
